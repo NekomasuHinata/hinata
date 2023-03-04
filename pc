@@ -1,0 +1,24 @@
+# 导入requests库和BeautifulSoup库
+import requests
+
+
+from bs4 import BeautifulSoup
+
+# 构造百度搜索的url，假设关键词为"python"
+keyword = "python"
+base_url = "https://www.baidu.com/s?wd="
+url = base_url + keyword
+
+# 发送请求并获取响应内容
+response = requests.get(url)
+html = response.text
+
+# 解析响应内容，提取想要的数据
+soup = BeautifulSoup(html, "lxml")
+results = soup.find_all("div", class_="result c-container new-pmd")
+for result in results:
+    title = result.find("h3").get_text() # 获取标题
+    link = result.find("a")["href"] # 获取链接
+    print(title, link) # 输出标题和链接
+
+# 保存或输出数据（可选）
